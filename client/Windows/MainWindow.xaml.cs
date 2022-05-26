@@ -35,6 +35,7 @@ namespace CourseWork
 
             if (login.ToLower() == "user")
             {
+                tab.Items.RemoveAt(6);
                 foreach (string btn in btns)
                 {
                     var button = body.FindName(btn) as Control;
@@ -422,63 +423,64 @@ namespace CourseWork
             }
         }
 
-        private void reload_db(object sender, RoutedEventArgs e)
-        {
-            var name = ((Button)sender).Name;
-            switch (name)
-            {
-                case "btn_rel_st":
-                    var dataset = worker.makeQuery("SELECT * FROM students ORDER BY id;");
-                    if (dataset != null)
-                        DataGrid_st.ItemsSource = dataset.Tables[0].DefaultView;
-                    break;
-                case "btn_rel_gr":
-                    dataset = worker.makeQuery("SELECT * FROM groups ORDER BY id;");
-                    if (dataset != null)
-                        DataGrid_gr.ItemsSource = dataset.Tables[0].DefaultView;
-                    break;
-                case "btn_rel_mr":
-                    dataset = worker.makeQuery("SELECT * FROM marks ORDER BY id;");
-                    if (dataset != null)
-                        DataGrid_mr.ItemsSource = dataset.Tables[0].DefaultView;
-                    break;
-                case "btn_rel_sj":
-                    dataset = worker.makeQuery("SELECT * FROM subjects ORDER BY id;");
-                    if (dataset != null)
-                        DataGrid_sj.ItemsSource = dataset.Tables[0].DefaultView;
-                    break;
-                case "btn_rel_dp":
-                    dataset = worker.makeQuery("SELECT * FROM departments ORDER BY id;");
-                    if (dataset != null)
-                        DataGrid_dp.ItemsSource = dataset.Tables[0].DefaultView;
-                    break;
-                case "btn_rel_mv":
-                    dataset = worker.makeQuery("SELECT * FROM marks_view;");
-                    if (dataset != null)
-                        DataGrid_mv.ItemsSource = dataset.Tables[0].DefaultView;
-                    break;
-            }
-
-        }
+        private void reload_db(object sender, RoutedEventArgs e) =>
+            update_all_db();
 
         private void update_all_db()
         {
-            var dataset = worker.makeQuery("SELECT * FROM students ORDER BY id;");
+            var dataset = worker.makeQuery(
+                "SELECT students.id \"ID\", " +
+                       "surname     \"Фамилия\", " +
+                       "name        \"Имя\", " +
+                       "middle_name \"Отчество\", " +
+                       "d.title  AS \"Кафедра\", " +
+                       "g.cypher AS \"Группа\" " +
+                "FROM students " +
+                         "JOIN departments d on students.department_id = d.id " +
+                         "JOIN groups g on d.id = g.department_id " +
+                "ORDER BY students.id; ");
             if (dataset != null)
                 DataGrid_st.ItemsSource = dataset.Tables[0].DefaultView;
-            dataset = worker.makeQuery("SELECT * FROM groups ORDER BY id;");
+
+            dataset = worker.makeQuery(
+                "SELECT groups.id \"ID\", cypher \"Шифр\", student_count \"Количество студентов\", d.title \"Кафедра\" " +
+                "FROM groups " +
+                         "JOIN departments d on groups.department_id = d.id " +
+                "ORDER BY groups.id; ");
             if (dataset != null)
                 DataGrid_gr.ItemsSource = dataset.Tables[0].DefaultView;
-            dataset = worker.makeQuery("SELECT * FROM marks ORDER BY id;");
+
+            dataset = worker.makeQuery(
+                "SELECT marks.id                                   \"ID\", " +
+                "mark                                               \"Оценка\", " +
+                "passes                                             \"Пропуски\", " +
+                "CONCAT(s.surname, ' ', s.name, ' ', s.middle_name) \"Студент\", " +
+                "sj.title                                           \"Предмет\" " +
+                "FROM marks " +
+                        "JOIN students s on marks.student_id = s.id " +
+                        "JOIN subjects sj on marks.subject_id = sj.id " +
+                "ORDER BY marks.id; ");
             if (dataset != null)
                 DataGrid_mr.ItemsSource = dataset.Tables[0].DefaultView;
-            dataset = worker.makeQuery("SELECT * FROM subjects ORDER BY id;");
+
+            dataset = worker.makeQuery("SELECT id \"ID\", title \"Наименование\" FROM subjects;");
             if (dataset != null)
                 DataGrid_sj.ItemsSource = dataset.Tables[0].DefaultView;
-            dataset = worker.makeQuery("SELECT * FROM departments ORDER BY id;");
+
+            dataset = worker.makeQuery("SELECT id \"ID\", title \"Наименование\", head \"Заведующий\", classroom \"Аудитория\" FROM departments;");
             if (dataset != null)
                 DataGrid_dp.ItemsSource = dataset.Tables[0].DefaultView;
-            dataset = worker.makeQuery("SELECT * FROM marks_view;");
+
+            dataset = worker.makeQuery(
+                "SELECT mark_id     \"MARK_ID\", " +
+                       "group_name  \"Группа\", " +
+                       "surname     \"Фамилия\", " +
+                       "name        \"Имя\", " +
+                       "middle_name \"Отчество\", " +
+                       "subj_title  \"Предмет\", " +
+                       "mark        \"Оценка\", " +
+                       "passes      \"Пропуски\" " +
+                "FROM marks_view ORDER BY mark_id; ");
             if (dataset != null)
                 DataGrid_mv.ItemsSource = dataset.Tables[0].DefaultView;
         }
@@ -513,6 +515,13 @@ namespace CourseWork
         {
             base.OnMouseLeftButtonDown(e);
             DragMove();
+        }
+
+        private void dataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            if (e.Column.Header.ToString() == "ID"
+                || e.Column.Header.ToString() == "MARK_ID")
+                e.Column.Visibility = Visibility.Collapsed;
         }
 
         private void exitApp(object sender, RoutedEventArgs e) =>

@@ -335,8 +335,8 @@ namespace CourseWork
                     var surname = tbRightTop.Text;
                     var name = tbRightMiddle.Text;
                     var midname = tbRightBottom.Text;
-                    var group_id = cbLeftMiddle.SelectedIndex + 1;
-                    var department_id = cbLeftBottom.SelectedIndex + 1;
+                    var group_id = int.Parse(cbLeftMiddle.Text.Substring(0, cbLeftMiddle.Text.IndexOf(".")));
+                    var department_id = int.Parse(cbLeftBottom.Text.Substring(0, cbLeftBottom.Text.IndexOf(".")));
 
                     if (string.IsNullOrWhiteSpace(surname)
                         || string.IsNullOrWhiteSpace(name)
@@ -378,7 +378,7 @@ namespace CourseWork
                     break;
                 case DataTypes.Groups:
                     var cypher = tbRightTop.Text;
-                    department_id = cbLeftMiddle.SelectedIndex + 1;
+                    department_id = int.Parse(cbLeftMiddle.Text.Substring(0, cbLeftMiddle.Text.IndexOf(".")));
 
                     if (string.IsNullOrWhiteSpace(cypher)
                         || department_id == 0)
@@ -416,8 +416,8 @@ namespace CourseWork
                 case DataTypes.Marks:
                     var mark = tbRightTop.Text;
                     var passes = tbRightMiddle.Text;
-                    var student_id = cbLeftMiddle.SelectedIndex + 1;
-                    var subject_id = cbLeftBottom.SelectedIndex + 1;
+                    var student_id = int.Parse(cbLeftMiddle.Text.Substring(0, cbLeftMiddle.Text.IndexOf(".")));
+                    var subject_id = int.Parse(cbLeftBottom.Text.Substring(0, cbLeftBottom.Text.IndexOf(".")));
 
                     if (string.IsNullOrWhiteSpace(mark)
                         || string.IsNullOrWhiteSpace(passes)

@@ -1,4 +1,4 @@
---CREATE DATABASE coursework;
+CREATE DATABASE coursework;
 
 CREATE TABLE departments
 (
@@ -80,18 +80,20 @@ DROP EXTENSION IF EXISTS pg_trgm;
 CREATE EXTENSION pg_trgm; -- расширение для использования индекса GIN
 
 DROP INDEX IF EXISTS trgm_idx_groups_cypher, idx_marks_mark,
-    idx_marks_student_subject_id;
+    idx_marks_student_subject_id, idx_departments_title;
 
 -- noinspection SqlResolve
 CREATE INDEX trgm_idx_groups_cypher ON "groups" USING gin(cypher gin_trgm_ops);
 CREATE INDEX idx_marks_mark ON marks(mark);
 CREATE UNIQUE INDEX idx_marks_student_subject_id ON marks(student_id, subject_id);
+CREATE UNIQUE INDEX idx_departments_title ON departments(lower(title));
 
 SET enable_seqscan = false; -- отключение поиска полным перебором, чтобы показать работу индекса
 EXPLAIN ANALYZE SELECT * FROM "groups" WHERE cypher LIKE '%-20';
 EXPLAIN ANALYZE SELECT * FROM marks WHERE mark = 4;
 EXPLAIN ANALYZE SELECT * FROM marks WHERE student_id > 3 AND subject_id = 2;
 EXPLAIN ANALYZE SELECT * FROM students WHERE id > 10;
+EXPLAIN ANALYZE SELECT * FROM departments WHERE lower(title) = lower('КАфедра КБ-1 "Защита информации"');
 SET enable_seqscan = default; -- возвращаем исходное значение
 
 /* ЗАДАНИЕ 5. Триггеры */

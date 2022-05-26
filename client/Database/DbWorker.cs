@@ -16,7 +16,7 @@ namespace CourseWork.Database
             _connection.OpenAsync();
         }
 
-        ~DbWorker() => _connection.Dispose();
+        ~DbWorker() => _connection.Close();
 
         public static async Task<bool> checkConnection(string login, string password)
         {
