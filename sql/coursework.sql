@@ -335,7 +335,7 @@ BEGIN
     end if;
     if (p_name is not null) then
         UPDATE students
-        SET name = p_name
+        SET "name" = p_name
         WHERE id = p_id;
     end if;
     if (p_surname is not null) then
@@ -502,7 +502,7 @@ BEGIN
         UPDATE marks_view SET surname = p_surname WHERE mark_id = p_mark_id;
     end if;
     if (p_name is not null) then
-        UPDATE marks_view SET name = p_name WHERE mark_id = p_mark_id;
+        UPDATE marks_view SET "name" = p_name WHERE mark_id = p_mark_id;
     end if;
     if (p_middle_name is not null) then
         UPDATE marks_view SET middle_name = p_middle_name WHERE mark_id = p_mark_id;
@@ -619,7 +619,7 @@ AS
 $$
 BEGIN
     RETURN QUERY SELECT classroom FROM departments;
-END;
+END
 $$ LANGUAGE plpgsql;
 
 
@@ -660,7 +660,7 @@ CREATE OR REPLACE FUNCTION marks_view_updatable()
 $$
 BEGIN
     UPDATE students
-    SET name        = new.name,
+    SET "name"      = new.name,
         surname     = new.surname,
         middle_name = new.middle_name
     WHERE id = (SELECT student_id FROM marks WHERE marks.id = old.mark_id);
@@ -689,9 +689,9 @@ EXECUTE PROCEDURE marks_view_updatable();
 /* END */
 
 /* 3c. Запросы, содержащие подзапрос в разделах SELECT, FROM и WHERE (в каждом хотя бы по одному); */
-SELECT (SELECT surname FROM students WHERE surname = 'Иванов' LIMIT 1);
+SELECT (SELECT id FROM students WHERE surname = 'Иванов' LIMIT 1);
 
-SELECT * FROM (SELECT surname, name, group_id FROM students) AS m
+SELECT * FROM (SELECT surname, "name", group_id FROM students) AS m
     WHERE m.group_id = 3;
 
 SELECT count(mark) AS resits FROM marks
@@ -699,7 +699,7 @@ SELECT count(mark) AS resits FROM marks
 /* END */
 
 /* 3d. Коррелированные подзапросы (минимум 3 запроса). */
-SELECT surname, name,
+SELECT surname, "name",
        (SELECT cypher FROM "groups" WHERE id = group_id) AS "group"
     FROM students;
 
@@ -715,9 +715,9 @@ SELECT id, mark, passes,
 
 /* 3e. Многотабличный запрос, содержащий группировку записей,
     агрегатные функции и параметр, используемый в разделе HAVING; */
-SELECT surname, name, MIN(mark) as min_mark
+SELECT surname, "name", MIN(mark) as min_mark
 FROM marks JOIN students s on marks.student_id = s.id
-GROUP BY surname, name
+GROUP BY surname, "name"
 HAVING MIN(mark) = 3;
 /* END */
 

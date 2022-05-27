@@ -333,8 +333,10 @@ namespace CourseWork
                     var surname = tbRightTop.Text;
                     var name = tbRightMiddle.Text;
                     var midname = tbRightBottom.Text;
-                    var group_id = cbLeftMiddle.SelectedIndex == -1 ? 0 : int.Parse(cbLeftMiddle.Text.Substring(0, cbLeftMiddle.Text.IndexOf(".")));
-                    var department_id = cbLeftBottom.SelectedIndex == -1 ? 0 : int.Parse(cbLeftBottom.Text.Substring(0, cbLeftBottom.Text.IndexOf(".")));
+                    var group_id = cbLeftMiddle.SelectedIndex == -1 ?
+                        0 : int.Parse(cbLeftMiddle.Text.Substring(0, cbLeftMiddle.Text.IndexOf(".")));
+                    var department_id = cbLeftBottom.SelectedIndex == -1 ?
+                        0 : int.Parse(cbLeftBottom.Text.Substring(0, cbLeftBottom.Text.IndexOf(".")));
 
                     if (string.IsNullOrWhiteSpace(surname)
                         || string.IsNullOrWhiteSpace(name)

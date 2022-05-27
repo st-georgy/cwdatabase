@@ -346,7 +346,7 @@ namespace CourseWork
                     break;
                 case 2:
                     dataset = worker.makeQuery(
-                        "SELECT (SELECT surname FROM students WHERE surname = 'Иванов' LIMIT 1);"
+                        "SELECT (SELECT id FROM students WHERE surname = 'Иванов' LIMIT 1);"
                     );
                     if (dataset != null)
                         DataGrid_tasks.ItemsSource = dataset.Tables[0].DefaultView;
@@ -437,7 +437,7 @@ namespace CourseWork
                        "g.cypher AS \"Группа\" " +
                 "FROM students " +
                          "JOIN departments d on students.department_id = d.id " +
-                         "JOIN groups g on d.id = g.department_id " +
+                         "JOIN groups g on students.group_id = g.id " +
                 "ORDER BY students.id; ");
             if (dataset != null)
                 DataGrid_st.ItemsSource = dataset.Tables[0].DefaultView;
@@ -451,7 +451,7 @@ namespace CourseWork
                 DataGrid_gr.ItemsSource = dataset.Tables[0].DefaultView;
 
             dataset = worker.makeQuery(
-                "SELECT marks.id                                   \"ID\", " +
+                "SELECT marks.id                                    \"ID\", " +
                 "mark                                               \"Оценка\", " +
                 "passes                                             \"Пропуски\", " +
                 "CONCAT(s.surname, ' ', s.name, ' ', s.middle_name) \"Студент\", " +
