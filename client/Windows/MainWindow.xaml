@@ -6,8 +6,8 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="База данных студентов"
-        Height="600"
-        Width="1050"
+        Height="650"
+        Width="1100"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{x:Null}"
         WindowStyle="None"
@@ -17,11 +17,13 @@
         Icon="/icon.ico">
     <materialDesign:Card UniformCornerRadius="15"
                          Background="{DynamicResource MaterialDesignPaper}"
+                         Margin="25"
                          materialDesign:ShadowAssist.ShadowDepth="Depth4">
         <materialDesign:DialogHost CloseOnClickAway="True"
                                    x:Name="DialogHost">
             <StackPanel x:Name="body">
-                <Grid Height="40">
+                <Grid Height="40"
+                      KeyboardNavigation.TabNavigation="None">
                     <StackPanel Orientation="Horizontal"
                                 HorizontalAlignment="Right">
                         <StackPanel Orientation="Horizontal"
@@ -58,13 +60,15 @@
                 <Border BorderBrush="#FFA2A2A2"
                         BorderThickness="0.5"/>
                 <TabControl HorizontalAlignment="Center"
-                            Width="1025"
+                            Width="1050"
                             Style="{StaticResource MaterialDesignFilledTabControl}"
-                            Margin="0 10"
+                            Margin="0"
                             x:Name="tab">
-                    <TabItem Header="Студенты">
+                    <TabItem Header="Студенты"
+                             KeyboardNavigation.TabIndex="0">
                         <StackPanel Height="460"
-                                    VerticalAlignment="Top">
+                                    VerticalAlignment="Top"
+                                    KeyboardNavigation.TabNavigation="None">
                             <DataGrid AutoGenerateColumns="True"
                                       ColumnWidth="*"
                                       Style="{StaticResource MaterialDesignDataGrid}"
@@ -124,9 +128,11 @@
                         </StackPanel>
                     </TabItem>
 
-                    <TabItem Header="Группы">
+                    <TabItem Header="Группы"
+                             KeyboardNavigation.TabIndex="1">
                         <StackPanel Height="460"
-                                    VerticalAlignment="Top">
+                                    VerticalAlignment="Top"
+                                    KeyboardNavigation.TabNavigation="None">
                             <DataGrid AutoGenerateColumns="True"
                                       ColumnWidth="*"
                                       Style="{StaticResource MaterialDesignDataGrid}"
@@ -186,9 +192,11 @@
                         </StackPanel>
                     </TabItem>
                     
-                    <TabItem Header="Оценки">
+                    <TabItem Header="Оценки"
+                             KeyboardNavigation.TabIndex="2">
                         <StackPanel Height="460"
-                                    VerticalAlignment="Top">
+                                    VerticalAlignment="Top"
+                                    KeyboardNavigation.TabNavigation="None">
                             <DataGrid AutoGenerateColumns="True"
                                       ColumnWidth="*"
                                       Style="{StaticResource MaterialDesignDataGrid}"
@@ -249,9 +257,11 @@
                         </StackPanel>
                     </TabItem>
 
-                    <TabItem Header="Предметы">
+                    <TabItem Header="Предметы"
+                             KeyboardNavigation.TabIndex="3">
                         <StackPanel Height="460"
-                                    VerticalAlignment="Top">
+                                    VerticalAlignment="Top"
+                                    KeyboardNavigation.TabNavigation="None">
                             <DataGrid AutoGenerateColumns="True"
                                       ColumnWidth="*"
                                       Style="{StaticResource MaterialDesignDataGrid}"
@@ -312,9 +322,11 @@
                         </StackPanel>
                     </TabItem>
 
-                    <TabItem Header="Кафедры">
+                    <TabItem Header="Кафедры"
+                             KeyboardNavigation.TabIndex="4">
                         <StackPanel Height="460"
-                                    VerticalAlignment="Top">
+                                    VerticalAlignment="Top"
+                                    KeyboardNavigation.TabNavigation="None">
                             <DataGrid AutoGenerateColumns="True"
                                       ColumnWidth="*"
                                       Style="{StaticResource MaterialDesignDataGrid}"
@@ -375,9 +387,11 @@
                         </StackPanel>
                     </TabItem>
 
-                    <TabItem Header="MVIEW">
+                    <TabItem Header="MVIEW"
+                             KeyboardNavigation.TabIndex="5">
                         <StackPanel Height="460" 
-                                    VerticalAlignment="Top">
+                                    VerticalAlignment="Top"
+                                    KeyboardNavigation.TabNavigation="None">
                             <DataGrid AutoGenerateColumns="True"
                                       ColumnWidth="*"
                                       Style="{StaticResource MaterialDesignDataGrid}"
@@ -422,9 +436,11 @@
                         </StackPanel>
                     </TabItem>
 
-                    <TabItem Header="Задания">
+                    <TabItem Header="Задания"
+                             KeyboardNavigation.TabIndex="6">
                         <StackPanel Height="480" 
-                                    VerticalAlignment="Top">
+                                    VerticalAlignment="Top"
+                                    KeyboardNavigation.TabNavigation="None">
                             <DataGrid AutoGenerateColumns="True"
                                       ColumnWidth="*"
                                       Style="{StaticResource MaterialDesignDataGrid}"

@@ -73,8 +73,6 @@ namespace CourseWork
             InitializeComponent();
             ToolTipService.SetShowOnDisabled(tbLeftTop, true);
             ToolTipService.SetShowOnDisabled(tbRightMiddle, true);
-            if ((new PaletteHelper()).GetTheme().GetBaseTheme() == BaseTheme.Dark)
-                bgcard.Background = new SolidColorBrush(Color.FromRgb(53, 53, 53));
         }
 
         public ModWindow(DataTypes dataType, DbWorker worker)
@@ -175,7 +173,7 @@ namespace CourseWork
                         cbLeftMiddle.SelectedIndex = Convert.ToInt32(gr[3]) - 1;
                     }
 
-                    Height = 200;
+                    Height = 250;
                     break;
                 case DataTypes.Marks:
                     setCollapsed();
@@ -260,7 +258,7 @@ namespace CourseWork
                         tbRightTop.Text = sj[1].ToString();
                     }
 
-                    Height = 170;
+                    Height = 230;
                     break;
                 case DataTypes.Marks_View:
                     grid.RowDefinitions.Add(new RowDefinition());
@@ -335,8 +333,8 @@ namespace CourseWork
                     var surname = tbRightTop.Text;
                     var name = tbRightMiddle.Text;
                     var midname = tbRightBottom.Text;
-                    var group_id = int.Parse(cbLeftMiddle.Text.Substring(0, cbLeftMiddle.Text.IndexOf(".")));
-                    var department_id = int.Parse(cbLeftBottom.Text.Substring(0, cbLeftBottom.Text.IndexOf(".")));
+                    var group_id = cbLeftMiddle.SelectedIndex == -1 ? 0 : int.Parse(cbLeftMiddle.Text.Substring(0, cbLeftMiddle.Text.IndexOf(".")));
+                    var department_id = cbLeftBottom.SelectedIndex == -1 ? 0 : int.Parse(cbLeftBottom.Text.Substring(0, cbLeftBottom.Text.IndexOf(".")));
 
                     if (string.IsNullOrWhiteSpace(surname)
                         || string.IsNullOrWhiteSpace(name)
@@ -378,7 +376,7 @@ namespace CourseWork
                     break;
                 case DataTypes.Groups:
                     var cypher = tbRightTop.Text;
-                    department_id = int.Parse(cbLeftMiddle.Text.Substring(0, cbLeftMiddle.Text.IndexOf(".")));
+                    department_id = cbLeftMiddle.SelectedIndex == -1 ? 0 : int.Parse(cbLeftMiddle.Text.Substring(0, cbLeftMiddle.Text.IndexOf(".")));
 
                     if (string.IsNullOrWhiteSpace(cypher)
                         || department_id == 0)
@@ -416,8 +414,8 @@ namespace CourseWork
                 case DataTypes.Marks:
                     var mark = tbRightTop.Text;
                     var passes = tbRightMiddle.Text;
-                    var student_id = int.Parse(cbLeftMiddle.Text.Substring(0, cbLeftMiddle.Text.IndexOf(".")));
-                    var subject_id = int.Parse(cbLeftBottom.Text.Substring(0, cbLeftBottom.Text.IndexOf(".")));
+                    var student_id = cbLeftMiddle.SelectedIndex == -1 ? 0 : int.Parse(cbLeftMiddle.Text.Substring(0, cbLeftMiddle.Text.IndexOf(".")));
+                    var subject_id = cbLeftBottom.SelectedIndex == -1 ? 0 : int.Parse(cbLeftBottom.Text.Substring(0, cbLeftBottom.Text.IndexOf(".")));
 
                     if (string.IsNullOrWhiteSpace(mark)
                         || string.IsNullOrWhiteSpace(passes)

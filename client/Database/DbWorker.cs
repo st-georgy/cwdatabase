@@ -25,13 +25,8 @@ namespace CourseWork.Database
             
             await using (var conn = new NpgsqlConnection(connString))
             {
-                try
-                {
-                    await conn.OpenAsync();
-                    result = conn.State == ConnectionState.Open ? true : false;
-                }
-                catch (Exception e) { Console.Error.WriteLine(e); }
-                finally { conn.Close(); }
+                await conn.OpenAsync();
+                result = conn.State == ConnectionState.Open ? true : false;
             }
 
             return result;

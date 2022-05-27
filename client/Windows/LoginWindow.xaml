@@ -33,7 +33,8 @@
                                       Margin="12 0 -4 0" 
                                       x:Name="themeToggle"
                                       IsChecked="{Binding IsDarkTheme}"
-                                      Click="toggleTheme"/>
+                                      Click="toggleTheme"
+                                      KeyboardNavigation.TabIndex="3"/>
                     </StackPanel>
                     <Button x:Name="btn_exit"
                             ToolTip="Закрыть приложение"
@@ -45,7 +46,8 @@
                             Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
                             Height="30"
                             Width="30"
-                            Margin="10">
+                            Margin="10"
+                            KeyboardNavigation.TabIndex="4">
                         <materialDesign:PackIcon Kind="Close"
                                                  Foreground="#FFA2A2A2"
                                                  Width="25"
@@ -72,7 +74,8 @@
                          BorderBrush="{DynamicResource MaterialDesignDivider}"
                          Style="{StaticResource MaterialDesignOutlinedTextBox}"
                          materialDesign:TextFieldAssist.HasClearButton="True"
-                         ToolTip="Имя пользователя"/>
+                         ToolTip="Имя пользователя"
+                         KeyboardNavigation.TabIndex="0"/>
 
                 <PasswordBox Margin="0 10 0 0"
                              x:Name="inputPassword"
@@ -82,7 +85,8 @@
                              BorderBrush="{DynamicResource MaterialDesignDivider}"
                              Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
                              materialDesign:TextFieldAssist.HasClearButton="True"
-                             ToolTip="Пароль от аккаунта"/>
+                             ToolTip="Пароль от аккаунта"
+                             KeyboardNavigation.TabIndex="1"/>
 
 
                 <Button Margin="0 20 0 0"
@@ -95,7 +99,9 @@
                         FontSize="14"
                         Content="Войти"
                         Click="login"
-                        ToolTip="Войти в приложение"/>
+                        ToolTip="Войти в приложение"
+                        IsDefault="True"
+                        KeyboardNavigation.TabIndex="2"/>
             </StackPanel>
         </materialDesign:DialogHost>
     </materialDesign:Card>

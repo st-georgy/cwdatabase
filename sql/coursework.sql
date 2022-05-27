@@ -57,8 +57,8 @@ CREATE TABLE marks
     CONSTRAINT marks_student_subject_unique UNIQUE (student_id, subject_id)
 );
 
-/* VIEW из задания 3b (перенесен в начало, чтобы скрипт исправно работал*/
-CREATE VIEW marks_view (mark_id, group_name, surname, name, middle_name, subj_title, mark, passes) AS
+/* VIEW из задания 3b (перенесен в начало, чтобы скрипт исправно работал)*/
+CREATE VIEW marks_view (mark_id, group_name, surname, "name", middle_name, subj_title, mark, passes) AS
 SELECT marks.id,
        g.cypher,
        st.surname,
