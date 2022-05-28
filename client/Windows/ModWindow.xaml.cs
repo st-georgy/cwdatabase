@@ -1,12 +1,12 @@
 ﻿using CourseWork.Database;
 using MaterialDesignThemes.Wpf;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace CourseWork
@@ -65,6 +65,8 @@ namespace CourseWork
         private bool IsUpdating { get; init; } = false;
         private int UpdatingId { get; init; }
         private DbWorker Worker { get; init; } = default!;
+        private List<int> dbId1 = new List<int>();
+        private List<int> dbId2 = new List<int>();
         #endregion
 
         #region ModWindow constructors
@@ -111,18 +113,23 @@ namespace CourseWork
                     tbRightTop.PreviewTextInput += TextValidationTextBox;
                     tbRightMiddle.PreviewTextInput += TextValidationTextBox;
                     tbRightBottom.PreviewTextInput += TextValidationTextBox;
-                        
                     DataSet groups = Worker.makeQuery("SELECT id, cypher " +
                             "FROM groups ORDER BY id;");
                     cbLeftMiddle.Items.Clear();
                     foreach (DataRow row in groups.Tables[0].Rows)
-                        cbLeftMiddle.Items.Add($"{row[0]}. {row[1]}");
+                    {
+                        dbId1.Add(Convert.ToInt32(row[0].ToString()));
+                        cbLeftMiddle.Items.Add($"{row[1]}");
+                    }
 
                     DataSet deparments = Worker.makeQuery("SELECT id, title " +
                         "FROM departments ORDER BY id;");
                     cbLeftBottom.Items.Clear();
                     foreach (DataRow row in deparments.Tables[0].Rows)
-                        cbLeftBottom.Items.Add($"{row[0]}. {row[1]}");
+                    {
+                        dbId2.Add(Convert.ToInt32(row[0].ToString()));
+                        cbLeftBottom.Items.Add($"{row[1]}");
+                    }
 
                     if (!IsUpdating)
                     {
@@ -156,7 +163,10 @@ namespace CourseWork
                         "FROM departments ORDER BY id;");
                     cbLeftMiddle.Items.Clear();
                     foreach (DataRow row in deparments.Tables[0].Rows)
-                        cbLeftMiddle.Items.Add($"{row[0]}. {row[1]}");
+                    {
+                        cbLeftMiddle.Items.Add($"{row[1]}");
+                        dbId1.Add(Convert.ToInt32(row[0].ToString()));
+                    }
 
                     if (!IsUpdating)
                     {
@@ -187,12 +197,18 @@ namespace CourseWork
                         "middle_name FROM students ORDER BY id;");
                     cbLeftMiddle.Items.Clear();
                     foreach (DataRow row in students.Tables[0].Rows)
-                        cbLeftMiddle.Items.Add($"{row[0]}. {row[1]} {row[2]} {row[3]}");
+                    {
+                        cbLeftMiddle.Items.Add($"{row[1]} {row[2]} {row[3]}");
+                        dbId1.Add(Convert.ToInt32(row[0].ToString()));
+                    }
 
                     DataSet subjects = Worker.makeQuery("SELECT * FROM subjects ORDER BY id;");
                     cbLeftBottom.Items.Clear();
                     foreach (DataRow row in subjects.Tables[0].Rows)
-                        cbLeftBottom.Items.Add($"{row[0]}. {row[1]}");
+                    {
+                        cbLeftBottom.Items.Add($"{row[1]}");
+                        dbId2.Add(Convert.ToInt32(row[0].ToString()));
+                    }
 
                     if (!IsUpdating)
                     {
@@ -334,9 +350,9 @@ namespace CourseWork
                     var name = tbRightMiddle.Text;
                     var midname = tbRightBottom.Text;
                     var group_id = cbLeftMiddle.SelectedIndex == -1 ?
-                        0 : int.Parse(cbLeftMiddle.Text.Substring(0, cbLeftMiddle.Text.IndexOf(".")));
+                        0 : dbId1[cbLeftMiddle.SelectedIndex];
                     var department_id = cbLeftBottom.SelectedIndex == -1 ?
-                        0 : int.Parse(cbLeftBottom.Text.Substring(0, cbLeftBottom.Text.IndexOf(".")));
+                        0 : dbId2[cbLeftBottom.SelectedIndex];
 
                     if (string.IsNullOrWhiteSpace(surname)
                         || string.IsNullOrWhiteSpace(name)
@@ -378,7 +394,8 @@ namespace CourseWork
                     break;
                 case DataTypes.Groups:
                     var cypher = tbRightTop.Text;
-                    department_id = cbLeftMiddle.SelectedIndex == -1 ? 0 : int.Parse(cbLeftMiddle.Text.Substring(0, cbLeftMiddle.Text.IndexOf(".")));
+                    department_id = cbLeftMiddle.SelectedIndex == -1 ?
+                        0 : dbId1[cbLeftMiddle.SelectedIndex];
 
                     if (string.IsNullOrWhiteSpace(cypher)
                         || department_id == 0)
@@ -416,8 +433,10 @@ namespace CourseWork
                 case DataTypes.Marks:
                     var mark = tbRightTop.Text;
                     var passes = tbRightMiddle.Text;
-                    var student_id = cbLeftMiddle.SelectedIndex == -1 ? 0 : int.Parse(cbLeftMiddle.Text.Substring(0, cbLeftMiddle.Text.IndexOf(".")));
-                    var subject_id = cbLeftBottom.SelectedIndex == -1 ? 0 : int.Parse(cbLeftBottom.Text.Substring(0, cbLeftBottom.Text.IndexOf(".")));
+                    var student_id = cbLeftMiddle.SelectedIndex == -1 ?
+                        0 : dbId1[cbLeftMiddle.SelectedIndex];
+                    var subject_id = cbLeftBottom.SelectedIndex == -1 ?
+                        0 : dbId2[cbLeftBottom.SelectedIndex];
 
                     if (string.IsNullOrWhiteSpace(mark)
                         || string.IsNullOrWhiteSpace(passes)
