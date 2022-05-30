@@ -1,5 +1,4 @@
 ﻿using Npgsql;
-using System;
 using System.Data;
 using System.Threading.Tasks;
 
@@ -32,16 +31,16 @@ namespace CourseWork.Database
             return result;
         }
 
-        public DataSet makeQuery(string queryStr)
+        public DataTable makeQuery(string queryStr)
         {
             using var cmd = new NpgsqlCommand(queryStr, _connection);
             cmd.Connection = _connection;
 
             var adapter = new NpgsqlDataAdapter(cmd);
 
-            var ds = new DataSet();
-            adapter.Fill(ds);
-            return ds;
+            var dt = new DataTable();
+            adapter.Fill(dt);
+            return dt;
         }
     }
 }

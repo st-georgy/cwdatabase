@@ -68,7 +68,7 @@ namespace CourseWork
         private List<int> dbId1 = new List<int>();
         private List<int> dbId2 = new List<int>();
         #endregion
-
+        
         #region ModWindow constructors
         private ModWindow()
         {
@@ -113,19 +113,19 @@ namespace CourseWork
                     tbRightTop.PreviewTextInput += TextValidationTextBox;
                     tbRightMiddle.PreviewTextInput += TextValidationTextBox;
                     tbRightBottom.PreviewTextInput += TextValidationTextBox;
-                    DataSet groups = Worker.makeQuery("SELECT id, cypher " +
+                    DataTable groups = Worker.makeQuery("SELECT id, cypher " +
                             "FROM groups ORDER BY id;");
                     cbLeftMiddle.Items.Clear();
-                    foreach (DataRow row in groups.Tables[0].Rows)
+                    foreach (DataRow row in groups.Rows)
                     {
                         dbId1.Add(Convert.ToInt32(row[0].ToString()));
                         cbLeftMiddle.Items.Add($"{row[1]}");
                     }
 
-                    DataSet deparments = Worker.makeQuery("SELECT id, title " +
+                    DataTable deparments = Worker.makeQuery("SELECT id, title " +
                         "FROM departments ORDER BY id;");
                     cbLeftBottom.Items.Clear();
-                    foreach (DataRow row in deparments.Tables[0].Rows)
+                    foreach (DataRow row in deparments.Rows)
                     {
                         dbId2.Add(Convert.ToInt32(row[0].ToString()));
                         cbLeftBottom.Items.Add($"{row[1]}");
@@ -133,14 +133,14 @@ namespace CourseWork
 
                     if (!IsUpdating)
                     {
-                        DataSet student = Worker.makeQuery("SELECT last_value " +
+                        DataTable student = Worker.makeQuery("SELECT last_value " +
                             "FROM students_id_seq;");
-                        int st_id = Convert.ToInt32(student.Tables[0].Rows[0][0].ToString());
+                        int st_id = Convert.ToInt32(student.Rows[0][0].ToString());
                         tbLeftTop.Text = (st_id + 1).ToString();
                     } else
                     {
-                        DataSet student = Worker.makeQuery($"SELECT * FROM students WHERE id={UpdatingId};");
-                        var st = student.Tables[0].Rows[0];
+                        DataTable student = Worker.makeQuery($"SELECT * FROM students WHERE id={UpdatingId};");
+                        var st = student.Rows[0];
                         tbLeftTop.Text = UpdatingId.ToString();
                         tbRightTop.Text = st[1].ToString();
                         tbRightMiddle.Text = st[2].ToString();
@@ -162,7 +162,7 @@ namespace CourseWork
                     deparments = Worker.makeQuery("SELECT id, title " +
                         "FROM departments ORDER BY id;");
                     cbLeftMiddle.Items.Clear();
-                    foreach (DataRow row in deparments.Tables[0].Rows)
+                    foreach (DataRow row in deparments.Rows)
                     {
                         cbLeftMiddle.Items.Add($"{row[1]}");
                         dbId1.Add(Convert.ToInt32(row[0].ToString()));
@@ -170,13 +170,13 @@ namespace CourseWork
 
                     if (!IsUpdating)
                     {
-                        DataSet group = Worker.makeQuery("SELECT last_value FROM groups_id_seq;");
-                        int gr_id = Convert.ToInt32(group.Tables[0].Rows[0][0].ToString());
+                        DataTable group = Worker.makeQuery("SELECT last_value FROM groups_id_seq;");
+                        int gr_id = Convert.ToInt32(group.Rows[0][0].ToString());
                         tbLeftTop.Text = (gr_id + 1).ToString();
                     }
                     else {
-                        DataSet group = Worker.makeQuery($"SELECT * FROM groups WHERE id={UpdatingId};");
-                        var gr = group.Tables[0].Rows[0];
+                        DataTable group = Worker.makeQuery($"SELECT * FROM groups WHERE id={UpdatingId};");
+                        var gr = group.Rows[0];
                         tbLeftTop.Text = UpdatingId.ToString();
                         tbRightTop.Text = gr[1].ToString();
                         tbRightMiddle.Text = gr[2].ToString();
@@ -193,18 +193,18 @@ namespace CourseWork
                     tbRightTop.PreviewTextInput += MarkValidationTextBox;
                     tbRightMiddle.PreviewTextInput += NumberValidationTextBox;
 
-                    DataSet students = Worker.makeQuery("SELECT id, surname, name, " +
+                    DataTable students = Worker.makeQuery("SELECT id, surname, name, " +
                         "middle_name FROM students ORDER BY id;");
                     cbLeftMiddle.Items.Clear();
-                    foreach (DataRow row in students.Tables[0].Rows)
+                    foreach (DataRow row in students.Rows)
                     {
                         cbLeftMiddle.Items.Add($"{row[1]} {row[2]} {row[3]}");
                         dbId1.Add(Convert.ToInt32(row[0].ToString()));
                     }
 
-                    DataSet subjects = Worker.makeQuery("SELECT * FROM subjects ORDER BY id;");
+                    DataTable subjects = Worker.makeQuery("SELECT * FROM subjects ORDER BY id;");
                     cbLeftBottom.Items.Clear();
-                    foreach (DataRow row in subjects.Tables[0].Rows)
+                    foreach (DataRow row in subjects.Rows)
                     {
                         cbLeftBottom.Items.Add($"{row[1]}");
                         dbId2.Add(Convert.ToInt32(row[0].ToString()));
@@ -212,14 +212,14 @@ namespace CourseWork
 
                     if (!IsUpdating)
                     {
-                        DataSet mark = Worker.makeQuery("SELECT last_value FROM marks_id_seq;");
-                        int mr_id = Convert.ToInt32(mark.Tables[0].Rows[0][0].ToString());
+                        DataTable mark = Worker.makeQuery("SELECT last_value FROM marks_id_seq;");
+                        int mr_id = Convert.ToInt32(mark.Rows[0][0].ToString());
                         tbLeftTop.Text = (mr_id + 1).ToString();
                     }
                     else
                     {
-                        DataSet mark = Worker.makeQuery($"SELECT * FROM marks WHERE id={UpdatingId};");
-                        var mr = mark.Tables[0].Rows[0];
+                        DataTable mark = Worker.makeQuery($"SELECT * FROM marks WHERE id={UpdatingId};");
+                        var mr = mark.Rows[0];
                         tbLeftTop.Text = UpdatingId.ToString();
                         tbRightTop.Text = mr[1].ToString();
                         tbRightMiddle.Text = mr[2].ToString();
@@ -239,14 +239,14 @@ namespace CourseWork
 
                     if (!IsUpdating)
                     {
-                        DataSet department = Worker.makeQuery("SELECT " +
+                        DataTable department = Worker.makeQuery("SELECT " +
                             "last_value FROM departments_id_seq;");
-                        int dp_id = Convert.ToInt32(department.Tables[0].Rows[0][0].ToString());
+                        int dp_id = Convert.ToInt32(department.Rows[0][0].ToString());
                         tbLeftTop.Text = (dp_id + 1).ToString();
                     } else
                     {
-                        DataSet department = Worker.makeQuery($"SELECT * FROM departments WHERE id={UpdatingId};");
-                        var dp = department.Tables[0].Rows[0];
+                        DataTable department = Worker.makeQuery($"SELECT * FROM departments WHERE id={UpdatingId};");
+                        var dp = department.Rows[0];
                         tbLeftTop.Text = UpdatingId.ToString();
                         tbRightTop.Text = dp[1].ToString();
                         tbRightMiddle.Text = dp[2].ToString();
@@ -262,14 +262,14 @@ namespace CourseWork
 
                     if (!IsUpdating)
                     {
-                        DataSet subject = Worker.makeQuery("SELECT " +
+                        DataTable subject = Worker.makeQuery("SELECT " +
                             "last_value FROM subjects_id_seq;");
-                        int sj_id = Convert.ToInt32(subject.Tables[0].Rows[0][0].ToString());
+                        int sj_id = Convert.ToInt32(subject.Rows[0][0].ToString());
                         tbLeftTop.Text = (sj_id + 1).ToString();
                     } else
                     {
-                        DataSet subject = Worker.makeQuery($"SELECT * FROM subjects WHERE id={UpdatingId};");
-                        var sj = subject.Tables[0].Rows[0];
+                        DataTable subject = Worker.makeQuery($"SELECT * FROM subjects WHERE id={UpdatingId};");
+                        var sj = subject.Rows[0];
                         tbLeftTop.Text = UpdatingId.ToString();
                         tbRightTop.Text = sj[1].ToString();
                     }
@@ -298,10 +298,10 @@ namespace CourseWork
                     tbRightBottom.PreviewTextInput += TextValidationTextBox;
                     tbRightBottom2.MaxLength = 10;
 
-                    DataSet mview = Worker.makeQuery($"SELECT mark_id, mark, passes, " +
+                    DataTable mview = Worker.makeQuery($"SELECT mark_id, mark, passes, " +
                         $"subj_title, surname, name, middle_name, group_name FROM marks_view " +
                         $"WHERE mark_id={UpdatingId};");
-                    var mv = mview.Tables[0].Rows[0];
+                    var mv = mview.Rows[0];
                     tbLeftTop.Text = UpdatingId.ToString();
                     tbLeftMiddle.Text = mv[1].ToString();
                     tbLeftBottom.Text = mv[2].ToString();
@@ -370,12 +370,12 @@ namespace CourseWork
                         {
                             var response = Worker.makeQuery($"SELECT add_student('{surname}', " +
                                 $"'{name}', '{midname}', {department_id}, {group_id})");
-                            responseText.Text = response.Tables[0].Rows[0][0].ToString();
+                            responseText.Text = response.Rows[0][0].ToString();
                         } else
                         {
                             var response = Worker.makeQuery($"SELECT update_student('{UpdatingId}', " +
                                 $"'{surname}', '{name}', '{midname}', {department_id}, {group_id})");
-                            responseText.Text = response.Tables[0].Rows[0][0].ToString();
+                            responseText.Text = response.Rows[0][0].ToString();
                             StartCloseTimer();
                             btn_confirm.IsEnabled = false;
                             break;
@@ -410,12 +410,12 @@ namespace CourseWork
                         {
                             var response = Worker.makeQuery($"SELECT add_group('{cypher}', " +
                                 $"'{department_id}');");
-                            responseText.Text = response.Tables[0].Rows[0][0].ToString();
+                            responseText.Text = response.Rows[0][0].ToString();
                         } else
                         {
                             var response = Worker.makeQuery($"SELECT update_group('{UpdatingId}', " +
                                 $"'{cypher}', '{department_id}');");
-                            responseText.Text = response.Tables[0].Rows[0][0].ToString();
+                            responseText.Text = response.Rows[0][0].ToString();
                             StartCloseTimer();
                             btn_confirm.IsEnabled = false;
                             break;
@@ -453,12 +453,12 @@ namespace CourseWork
                         {
                             var response = Worker.makeQuery($"SELECT add_mark('{mark}', " +
                                 $"'{passes}', '{student_id}', '{subject_id}');");
-                            responseText.Text = response.Tables[0].Rows[0][0].ToString();
+                            responseText.Text = response.Rows[0][0].ToString();
                         } else
                         {
                             var response = Worker.makeQuery($"SELECT update_mark('{UpdatingId}', " +
                                 $"'{mark}', '{passes}', '{student_id}', '{subject_id}');");
-                            responseText.Text = response.Tables[0].Rows[0][0].ToString();
+                            responseText.Text = response.Rows[0][0].ToString();
                             StartCloseTimer();
                             btn_confirm.IsEnabled = false;
                             break;
@@ -494,12 +494,12 @@ namespace CourseWork
                         {
                             var response = Worker.makeQuery($"SELECT add_department('{title}', " +
                                 $"'{head}', '{classroom}');");
-                            responseText.Text = response.Tables[0].Rows[0][0].ToString();
+                            responseText.Text = response.Rows[0][0].ToString();
                         } else
                         {
                             var response = Worker.makeQuery($"SELECT update_department('{UpdatingId}', " +
                                 $"'{title}', '{head}', '{classroom}');");
-                            responseText.Text = response.Tables[0].Rows[0][0].ToString();
+                            responseText.Text = response.Rows[0][0].ToString();
                             StartCloseTimer();
                             btn_confirm.IsEnabled = false;
                             break;
@@ -528,11 +528,11 @@ namespace CourseWork
                         if (!IsUpdating)
                         {
                             var response = Worker.makeQuery($"SELECT add_subject('{sj_title}');");
-                            responseText.Text = response.Tables[0].Rows[0][0].ToString();
+                            responseText.Text = response.Rows[0][0].ToString();
                         } else
                         {
                             var response = Worker.makeQuery($"SELECT update_subject('{UpdatingId}', '{sj_title}');");
-                            responseText.Text = response.Tables[0].Rows[0][0].ToString();
+                            responseText.Text = response.Rows[0][0].ToString();
                             StartCloseTimer();
                             btn_confirm.IsEnabled = false;
                             break;
@@ -559,7 +559,7 @@ namespace CourseWork
                     {
                         var response = Worker.makeQuery($"SELECT update_marks_view('{UpdatingId}', " +
                             $"'{cypher}', '{surname}', '{name}', '{midname}', '{subj_title}', '{mark}', '{passes}');");
-                        responseText.Text = response.Tables[0].Rows[0][0].ToString();
+                        responseText.Text = response.Rows[0][0].ToString();
                         StartCloseTimer();
                         btn_confirm.IsEnabled = false;
                         break;

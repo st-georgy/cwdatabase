@@ -209,7 +209,7 @@ namespace CourseWork
                         try
                         {
                             var response = worker.makeQuery($"SELECT delete_student({id});");
-                            responseText_st.Text = response.Tables[0].Rows[0][0].ToString();
+                            responseText_st.Text = response.Rows[0][0].ToString();
                         }
                         catch (Npgsql.PostgresException exception)
                         {
@@ -233,7 +233,7 @@ namespace CourseWork
                         try
                         {
                             var response = worker.makeQuery($"SELECT delete_group({id});");
-                            responseText_gr.Text = response.Tables[0].Rows[0][0].ToString();
+                            responseText_gr.Text = response.Rows[0][0].ToString();
                         }
                         catch (Npgsql.PostgresException exception)
                         {
@@ -257,7 +257,7 @@ namespace CourseWork
                         try
                         {
                             var response = worker.makeQuery($"SELECT delete_mark({id});");
-                            responseText_mr.Text = response.Tables[0].Rows[0][0].ToString();
+                            responseText_mr.Text = response.Rows[0][0].ToString();
                         }
                         catch (Npgsql.PostgresException exception)
                         {
@@ -281,7 +281,7 @@ namespace CourseWork
                         try
                         {
                             var response = worker.makeQuery($"SELECT delete_subject({id});");
-                            responseText_sj.Text = response.Tables[0].Rows[0][0].ToString();
+                            responseText_sj.Text = response.Rows[0][0].ToString();
                         }
                         catch (Npgsql.PostgresException exception)
                         {
@@ -305,7 +305,7 @@ namespace CourseWork
                         try
                         {
                             var response = worker.makeQuery($"SELECT delete_department({id});");
-                            responseText_dp.Text = response.Tables[0].Rows[0][0].ToString();
+                            responseText_dp.Text = response.Rows[0][0].ToString();
                         }
                         catch (Npgsql.PostgresException exception)
                         {
@@ -323,7 +323,7 @@ namespace CourseWork
             switch(task_combobox.SelectedIndex)
             {
                 case 0:
-                    var dataset = worker.makeQuery(
+                    var datatable = worker.makeQuery(
                         "SELECT marks.id AS mark_id, " +
                         "s.surname, " +
                         "s.name, " +
@@ -338,87 +338,87 @@ namespace CourseWork
                             "JOIN students s ON marks.student_id = s.id " +
                             "JOIN subjects sj ON marks.subject_id = sj.id " +
                         "ORDER BY surname;");
-                    if (dataset != null)
-                        DataGrid_tasks.ItemsSource = dataset.Tables[0].DefaultView;
+                    if (datatable != null)
+                        DataGrid_tasks.ItemsSource = datatable.DefaultView;
                     break;
                 case 1:
                     MessageBox.Show("Выполнение задания 3b - во вкладке MVIEW", "Внимание");
                     break;
                 case 2:
-                    dataset = worker.makeQuery(
+                    datatable = worker.makeQuery(
                         "SELECT (SELECT id FROM students WHERE surname = 'Иванов' LIMIT 1);"
                     );
-                    if (dataset != null)
-                        DataGrid_tasks.ItemsSource = dataset.Tables[0].DefaultView;
+                    if (datatable != null)
+                        DataGrid_tasks.ItemsSource = datatable.DefaultView;
                     break;
                 case 3:
-                    dataset = worker.makeQuery(
+                    datatable = worker.makeQuery(
                         "SELECT * FROM (SELECT surname, name, group_id FROM students) AS m " +
                         "WHERE m.group_id = 3; ");
-                    if (dataset != null)
-                        DataGrid_tasks.ItemsSource = dataset.Tables[0].DefaultView;
+                    if (datatable != null)
+                        DataGrid_tasks.ItemsSource = datatable.DefaultView;
                     break;
                 case 4:
-                    dataset = worker.makeQuery(
+                    datatable = worker.makeQuery(
                         "SELECT count(mark) AS resits FROM marks " +
                         "WHERE mark = (SELECT MIN(mark) FROM marks); "
                     );
-                    if (dataset != null)
-                        DataGrid_tasks.ItemsSource = dataset.Tables[0].DefaultView;
+                    if (datatable != null)
+                        DataGrid_tasks.ItemsSource = datatable.DefaultView;
                     break;
                 case 5:
-                    dataset = worker.makeQuery(
+                    datatable = worker.makeQuery(
                         "SELECT surname, name, " +
                             "(SELECT cypher FROM \"groups\" WHERE id = group_id) AS \"group\" " +
                         "FROM students;"
                     );
-                    if (dataset != null)
-                        DataGrid_tasks.ItemsSource = dataset.Tables[0].DefaultView;
+                    if (datatable != null)
+                        DataGrid_tasks.ItemsSource = datatable.DefaultView;
                     break;
                 case 6:
-                    dataset = worker.makeQuery(
+                    datatable = worker.makeQuery(
                         "SELECT * FROM \"groups\" g WHERE NOT " +
                             "exists(SELECT * FROM students s WHERE g.id = s.group_id) " +
                             "ORDER BY id;"
                     );
-                    if (dataset != null)
-                        DataGrid_tasks.ItemsSource = dataset.Tables[0].DefaultView;
+                    if (datatable != null)
+                        DataGrid_tasks.ItemsSource = datatable.DefaultView;
                     break;
                 case 7:
-                    dataset = worker.makeQuery(
+                    datatable = worker.makeQuery(
                         "SELECT id, mark, passes, " +
                            "(SELECT surname FROM students WHERE student_id = students.id), " +
                            "(SELECT title FROM subjects WHERE subject_id = subjects.id) " +
                         "FROM marks; "
                     );
-                    if (dataset != null)
-                        DataGrid_tasks.ItemsSource = dataset.Tables[0].DefaultView;
+                    if (datatable != null)
+                        DataGrid_tasks.ItemsSource = datatable.DefaultView;
                     break;
                 case 8:
-                    dataset = worker.makeQuery(
+                    datatable = worker.makeQuery(
                         "SELECT surname, name, MIN(mark) as min_mark " +
                         "FROM marks JOIN students s on marks.student_id = s.id " +
                         "GROUP BY surname, name " +
                         "HAVING MIN(mark) = 3;"
                     );
-                    if (dataset != null)
-                        DataGrid_tasks.ItemsSource = dataset.Tables[0].DefaultView;
+                    if (datatable != null)
+                        DataGrid_tasks.ItemsSource = datatable.DefaultView;
                     break;
                 case 9:
-                    dataset = worker.makeQuery(
+                    datatable = worker.makeQuery(
                         "SELECT * FROM marks_view WHERE group_name = ANY('{БИСО-01-20,БИСО-02-20}');"
                     );
-                    if (dataset != null)
-                        DataGrid_tasks.ItemsSource = dataset.Tables[0].DefaultView;
+                    if (datatable != null)
+                        DataGrid_tasks.ItemsSource = datatable.DefaultView;
                     break;
                 case 10:
-                    dataset = worker.makeQuery(
+                    datatable = worker.makeQuery(
                         "SELECT cypher, student_count " +
                         "FROM \"groups\" " +
                         "WHERE student_count > ALL(SELECT AVG(student_count) FROM \"groups\");"
                     );
-                    if (dataset != null)
-                        DataGrid_tasks.ItemsSource = dataset.Tables[0].DefaultView;
+                    if (datatable != null)
+                        DataGrid_tasks.ItemsSource = datatable.DefaultView;
                     break;
             }
         }
@@ -428,7 +428,7 @@ namespace CourseWork
 
         private void update_all_db()
         {
-            var dataset = worker.makeQuery(
+            var datatable = worker.makeQuery(
                 "SELECT students.id \"ID\", " +
                        "surname     \"Фамилия\", " +
                        "name        \"Имя\", " +
@@ -439,18 +439,18 @@ namespace CourseWork
                          "JOIN departments d on students.department_id = d.id " +
                          "JOIN groups g on students.group_id = g.id " +
                 "ORDER BY students.id; ");
-            if (dataset != null)
-                DataGrid_st.ItemsSource = dataset.Tables[0].DefaultView;
+            if (datatable != null)
+                DataGrid_st.ItemsSource = datatable.DefaultView;
 
-            dataset = worker.makeQuery(
+            datatable = worker.makeQuery(
                 "SELECT groups.id \"ID\", cypher \"Шифр\", student_count \"Количество студентов\", d.title \"Кафедра\" " +
                 "FROM groups " +
                          "JOIN departments d on groups.department_id = d.id " +
                 "ORDER BY groups.id; ");
-            if (dataset != null)
-                DataGrid_gr.ItemsSource = dataset.Tables[0].DefaultView;
+            if (datatable != null)
+                DataGrid_gr.ItemsSource = datatable.DefaultView;
 
-            dataset = worker.makeQuery(
+            datatable = worker.makeQuery(
                 "SELECT marks.id                                    \"ID\", " +
                 "mark                                               \"Оценка\", " +
                 "passes                                             \"Пропуски\", " +
@@ -460,18 +460,18 @@ namespace CourseWork
                         "JOIN students s on marks.student_id = s.id " +
                         "JOIN subjects sj on marks.subject_id = sj.id " +
                 "ORDER BY marks.id; ");
-            if (dataset != null)
-                DataGrid_mr.ItemsSource = dataset.Tables[0].DefaultView;
+            if (datatable != null)
+                DataGrid_mr.ItemsSource = datatable.DefaultView;
 
-            dataset = worker.makeQuery("SELECT id \"ID\", title \"Наименование\" FROM subjects;");
-            if (dataset != null)
-                DataGrid_sj.ItemsSource = dataset.Tables[0].DefaultView;
+            datatable = worker.makeQuery("SELECT id \"ID\", title \"Наименование\" FROM subjects;");
+            if (datatable != null)
+                DataGrid_sj.ItemsSource = datatable.DefaultView;
 
-            dataset = worker.makeQuery("SELECT id \"ID\", title \"Наименование\", head \"Заведующий\", classroom \"Аудитория\" FROM departments;");
-            if (dataset != null)
-                DataGrid_dp.ItemsSource = dataset.Tables[0].DefaultView;
+            datatable = worker.makeQuery("SELECT id \"ID\", title \"Наименование\", head \"Заведующий\", classroom \"Аудитория\" FROM departments;");
+            if (datatable != null)
+                DataGrid_dp.ItemsSource = datatable.DefaultView;
 
-            dataset = worker.makeQuery(
+            datatable = worker.makeQuery(
                 "SELECT mark_id     \"MARK_ID\", " +
                        "group_name  \"Группа\", " +
                        "surname     \"Фамилия\", " +
@@ -481,8 +481,8 @@ namespace CourseWork
                        "mark        \"Оценка\", " +
                        "passes      \"Пропуски\" " +
                 "FROM marks_view ORDER BY mark_id; ");
-            if (dataset != null)
-                DataGrid_mv.ItemsSource = dataset.Tables[0].DefaultView;
+            if (datatable != null)
+                DataGrid_mv.ItemsSource = datatable.DefaultView;
         }
         #endregion
 
